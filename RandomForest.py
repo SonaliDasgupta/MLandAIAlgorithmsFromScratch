@@ -7,14 +7,15 @@ class RandomForest:
         
         return DecisionTree(min_samples_leaf = self.min_samples_leaf, max_depth = self.max_depth, max_features = self.max_features)
     
-    def fit(self, X, y):    
+    def fit(self, X, y):   
+        #calls the var_split method of underlying Decision Trees
         for tree in self.trees:
             random_idxs = np.random.permutation(X.shape[0])[:self.sample_size]
             tree.var_split(X.iloc[random_idxs, :], y[random_idxs]) 
     
     def predict(self, x):
-      #  for t in self.trees:
-       #     print('prediction: '+str(t.predict(x)))
+      #  average of the predictions from each tree
+ 
         return np.mean([t.predict(x) for t in self.trees], axis = 0)
     
     def plot_pdp(self, X, y, feature_name, n_clusters = 0): pass
